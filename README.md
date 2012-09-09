@@ -1,4 +1,4 @@
 RPNCalculator
 =============
 
-toy calculator(Hello JavaFX)
+This is a toy calculator program. It has Reverse Polish Notation mode.
