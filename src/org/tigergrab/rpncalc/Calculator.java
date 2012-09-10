@@ -115,14 +115,14 @@ public class Calculator extends Application {
 	}
 
 	protected void initOperatorButton(GridPane grid, final TextField resultField) {
-		final Button addBtn = new Button("+");
-		final Button subBtn = new Button("-");
-		final Button mulBtn = new Button("*");
-		final Button divBtn = new Button("/");
-		grid.add(addBtn, 3, 2);
-		grid.add(subBtn, 3, 3);
-		grid.add(mulBtn, 3, 4);
-		grid.add(divBtn, 3, 5);
+		final Button divBtn = new Button("÷");
+		final Button mulBtn = new Button("×");
+		final Button subBtn = new Button("－");
+		final Button addBtn = new Button("＋");
+		grid.add(divBtn, 3, 2);
+		grid.add(mulBtn, 3, 3);
+		grid.add(subBtn, 3, 4);
+		grid.add(addBtn, 3, 5);
 
 		addBtn.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
