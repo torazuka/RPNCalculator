@@ -27,7 +27,7 @@ public class Calculator extends Application {
 	Deque<Integer> stack;
 
 	public Calculator() {
-		inputString = null;
+		inputString = "";
 		stack = new ArrayDeque<>();
 	}
 
@@ -79,7 +79,7 @@ public class Calculator extends Application {
 		clearBtn.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
-				inputString = null;
+				inputString = "";
 				stack = new ArrayDeque<>();
 				resultField.setText("0");
 			}
@@ -97,11 +97,11 @@ public class Calculator extends Application {
 			@Override
 			public void handle(ActionEvent event) {
 
-				// 一時文字列がnullでなく、tmpsに何も入っていなければ、オペランドの区切りが入力されたとみなして、tmpsに値を詰める
-				if (inputString != null && stack.size() == 0) {
+				// 一時文字列がnullでなく、stackに何も入っていなければ、オペランドの区切りが入力されたとみなして、stackに値を詰める
+				if (0 < inputString.length()) {
 					String str = resultField.getText();
 					stack.push(Integer.valueOf(str));
-					inputString = null;
+					inputString = "";
 					System.out.println("[stack] <= " + str);
 				} else {
 					// 一時文字列が空文字であれば、押されるべきは数字キーなので、何もしない
@@ -127,15 +127,17 @@ public class Calculator extends Application {
 		addBtn.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
-				if (inputString != null) {
-					if (0 < stack.size()) {
+				if (0 < stack.size()) {
+					if (0 < inputString.length()) {
 						stack.push(Integer.valueOf(inputString));
-						inputString = null;
-						Token token = new Add();
-						token.execute(stack);
-						resultField.setText(String.valueOf(stack.peek()));
-						System.out.println("[stack] <= " + stack.peek());
+						System.out.println("[stack] <= "
+								+ Integer.valueOf(inputString));
+						inputString = "";
 					}
+					Token token = new Add();
+					token.execute(stack);
+					resultField.setText(String.valueOf(stack.peek()));
+					System.out.println("[stack] <= " + stack.peek());
 				}
 			}
 		});
@@ -143,15 +145,17 @@ public class Calculator extends Application {
 		subBtn.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
-				if (inputString != null) {
-					if (0 < stack.size()) {
+				if (0 < stack.size()) {
+					if (0 < inputString.length()) {
 						stack.push(Integer.valueOf(inputString));
-						inputString = null;
-						Token token = new Sub();
-						token.execute(stack);
-						resultField.setText(String.valueOf(stack.peek()));
-						System.out.println("[stack] <= " + stack.peek());
+						System.out.println("[stack] <= "
+								+ Integer.valueOf(inputString));
+						inputString = "";
 					}
+					Token token = new Sub();
+					token.execute(stack);
+					resultField.setText(String.valueOf(stack.peek()));
+					System.out.println("[stack] <= " + stack.peek());
 				}
 			}
 		});
@@ -159,15 +163,17 @@ public class Calculator extends Application {
 		mulBtn.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
-				if (inputString != null) {
-					if (0 < stack.size()) {
+				if (0 < stack.size()) {
+					if (0 < inputString.length()) {
 						stack.push(Integer.valueOf(inputString));
-						inputString = null;
-						Token token = new Mul();
-						token.execute(stack);
-						resultField.setText(String.valueOf(stack.peek()));
-						System.out.println("[stack] <= " + stack.peek());
+						System.out.println("[stack] <= "
+								+ Integer.valueOf(inputString));
+						inputString = "";
 					}
+					Token token = new Mul();
+					token.execute(stack);
+					resultField.setText(String.valueOf(stack.peek()));
+					System.out.println("[stack] <= " + stack.peek());
 				}
 			}
 		});
@@ -175,15 +181,17 @@ public class Calculator extends Application {
 		divBtn.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
-				if (inputString != null) {
-					if (0 < stack.size()) {
+				if (0 < stack.size()) {
+					if (0 < inputString.length()) {
 						stack.push(Integer.valueOf(inputString));
-						inputString = null;
-						Token token = new Div();
-						token.execute(stack);
-						resultField.setText(String.valueOf(stack.peek()));
-						System.out.println("[stack] <= " + stack.peek());
+						System.out.println("[stack] <= "
+								+ Integer.valueOf(inputString));
+						inputString = "";
 					}
+					Token token = new Div();
+					token.execute(stack);
+					resultField.setText(String.valueOf(stack.peek()));
+					System.out.println("[stack] <= " + stack.peek());
 				}
 			}
 		});
@@ -229,7 +237,7 @@ public class Calculator extends Application {
 					String str = resultField.getText();
 
 					// 最初の入力 or Enter押下直後 or 表示が0の場合、押したボタンの数値を保持
-					if (inputString == null || str.equals("0")) {
+					if (0 < inputString.length() || str.equals("0")) {
 						inputString = button.getText();
 					} else {
 						// そうでない場合、保持している数値に最下位のケタを継ぎ足す
