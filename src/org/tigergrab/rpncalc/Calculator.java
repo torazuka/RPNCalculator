@@ -59,6 +59,7 @@ public class Calculator extends Application {
 		grid.add(result, 0, 1, 2, 1);
 
 		final TextField resultField = new TextField();
+		resultField.setText("0");
 		resultField.setEditable(false);
 		grid.add(resultField, 2, 1, 3, 1);
 
