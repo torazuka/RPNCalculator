@@ -23,11 +23,11 @@ import javafx.stage.Stage;
 
 public class Calculator extends Application {
 
-	String inputString;
+	int inputData;
+	boolean isMid;
 	Deque<Integer> stack;
 
 	public Calculator() {
-		inputString = "";
 		stack = new ArrayDeque<>();
 	}
 
@@ -79,7 +79,8 @@ public class Calculator extends Application {
 		clearBtn.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
-				inputString = "";
+				inputData = 0;
+				isMid = false;
 				stack = new ArrayDeque<>();
 				resultField.setText("0");
 			}
@@ -98,10 +99,11 @@ public class Calculator extends Application {
 			public void handle(ActionEvent event) {
 
 				// 一時文字列がnullでなく、stackに何も入っていなければ、オペランドの区切りが入力されたとみなして、stackに値を詰める
-				if (0 < inputString.length()) {
+				if (isMid) {
 					String str = resultField.getText();
 					stack.push(Integer.valueOf(str));
-					inputString = "";
+					inputData = 0;
+					isMid = false;
 					System.out.println("[stack] <= " + str);
 				} else {
 					// 一時文字列が空文字であれば、押されるべきは数字キーなので、何もしない
@@ -128,11 +130,11 @@ public class Calculator extends Application {
 			@Override
 			public void handle(ActionEvent event) {
 				if (0 < stack.size()) {
-					if (0 < inputString.length()) {
-						stack.push(Integer.valueOf(inputString));
-						System.out.println("[stack] <= "
-								+ Integer.valueOf(inputString));
-						inputString = "";
+					if (isMid) {
+						stack.push(inputData);
+						System.out.println("[stack] <= " + inputData);
+						inputData = 0;
+						isMid = false;
 					}
 					Token token = new Add();
 					token.execute(stack);
@@ -146,11 +148,11 @@ public class Calculator extends Application {
 			@Override
 			public void handle(ActionEvent event) {
 				if (0 < stack.size()) {
-					if (0 < inputString.length()) {
-						stack.push(Integer.valueOf(inputString));
-						System.out.println("[stack] <= "
-								+ Integer.valueOf(inputString));
-						inputString = "";
+					if (isMid) {
+						stack.push(inputData);
+						System.out.println("[stack] <= " + inputData);
+						inputData = 0;
+						isMid = false;
 					}
 					Token token = new Sub();
 					token.execute(stack);
@@ -164,11 +166,11 @@ public class Calculator extends Application {
 			@Override
 			public void handle(ActionEvent event) {
 				if (0 < stack.size()) {
-					if (0 < inputString.length()) {
-						stack.push(Integer.valueOf(inputString));
-						System.out.println("[stack] <= "
-								+ Integer.valueOf(inputString));
-						inputString = "";
+					if (isMid) {
+						stack.push(inputData);
+						System.out.println("[stack] <= " + inputData);
+						inputData = 0;
+						isMid = false;
 					}
 					Token token = new Mul();
 					token.execute(stack);
@@ -182,11 +184,11 @@ public class Calculator extends Application {
 			@Override
 			public void handle(ActionEvent event) {
 				if (0 < stack.size()) {
-					if (0 < inputString.length()) {
-						stack.push(Integer.valueOf(inputString));
-						System.out.println("[stack] <= "
-								+ Integer.valueOf(inputString));
-						inputString = "";
+					if (isMid) {
+						stack.push(inputData);
+						System.out.println("[stack] <= " + inputData);
+						inputData = 0;
+						isMid = false;
 					}
 					Token token = new Div();
 					token.execute(stack);
@@ -237,13 +239,17 @@ public class Calculator extends Application {
 					String str = resultField.getText();
 
 					// 最初の入力 or Enter押下直後 or 表示が0の場合、押したボタンの数値を保持
-					if (0 < inputString.length() || str.equals("0")) {
-						inputString = button.getText();
+					if (isMid == false || str.equals("0")) {
+						String tmp = button.getText();
+						inputData = Integer.valueOf(tmp);
+						isMid = true;
 					} else {
 						// そうでない場合、保持している数値に最下位のケタを継ぎ足す
-						inputString += button.getText();
+						String tmp = button.getText();
+						inputData *= 10;
+						inputData += Integer.valueOf(tmp);
 					}
-					resultField.setText(inputString);
+					resultField.setText(String.valueOf(inputData));
 				}
 			});
 		}
